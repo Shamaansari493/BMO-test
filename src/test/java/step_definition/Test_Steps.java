@@ -1,40 +1,60 @@
 package step_definition;
 
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import junit.framework.Assert;
 
 public class Test_Steps {
 
 	public WebDriver driver;
 
 	@Given("^User is on the login page$")
-	public void User_is_on_the_login_page() throws Throwable {
+	public void userOnLoginPage() throws Exception {
 
 		System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver.exe");
-		/*
-		 * driver = new ChromeDriver(); driver.manage().timeouts().implicitlyWait(10,
-		 * TimeUnit.SECONDS); driver.manage().deleteAllCookies();
-		 * driver.manage().window().maximize();
-		 * driver.get("https://www.just-eat.co.uk");
-		 */
-
-		/*Code to click on Login link
-			Code to check 'I'm not a robot' 
-			User is now on the login page*/	
-
-		System.out.println("Verified page title prior to login");
-		System.out.println("Verified Page Title and URL for login page");
+		driver = new ChromeDriver(); 
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); 
+		//driver.manage().deleteAllCookies();
+		driver.manage().window().maximize();
+		
+		driver.get("https://www.just-eat.co.uk");
+		String homepage = driver.getTitle();
+		
+		driver.findElement(By.xpath("(//a[contains(@href, '/account/login')])[1]")).click();
+	    Thread.sleep(5000);
+		
+	    //solve-captcha
+		driver.findElement(By.xpath("//div[@class='recaptcha-checkbox-border']")).click();
+	    
+	    String expected_title = "Log in to your account at Just Eat";
+	    String actual_title = driver.getTitle();
+	    
+	    Assert.assertEquals(expected_title, actual_title);
+	    
+	    if (!actual_title.equals(homepage))
+	    {
+	    	System.out.println("Verified page title prior to login");
+			System.out.println("Verified Page Title and URL for login page");
+	    }
+	    
+	    else
+	    	throw new Exception("Not on login page- precondition failed");
+		
 
 	}
 
 	@When("^User logs in with valid email address and password$")
-	public void User_logs_in_with_valid_email_address_and_password() throws Throwable {
+	public void User_logs_in_with_valid_email_address_and_password() {
 
 		/*driver.findElement(By.xpath("")).sendKeys("valid_username");
-			driver.findElement(By.xpath("")).sendKeys("valid_username");
+			driver.findElement(By.xpath("")).sendKeys("valid_password");
 			driver.findElement(By.xpath("")).click();*/
 
 		System.out.println("Entered valid username and password");

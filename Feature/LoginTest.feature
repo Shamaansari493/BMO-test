@@ -11,4 +11,3 @@ Scenario: Successfull log out
 	Given User is already logged-in
 	When User logout from JUST EAT
 	Then  User should be to logged out successfully and remain on same page
-
