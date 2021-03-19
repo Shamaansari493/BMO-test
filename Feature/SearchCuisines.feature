@@ -6,4 +6,4 @@ I want to be able to find different cuisines available in my area.
 Scenario: Search for cuisines in an area
 Given I want food as "Burger"
 When I search for the burgers
-Then I should see some restaurants that offer burgerss
+Then I should see some restaurants that offer burgers
